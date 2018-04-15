@@ -1,0 +1,101 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> CentOS|Ubuntu Linux系统日常维护 · Hexo</title><meta name="description" content="CentOS|Ubuntu Linux系统日常维护 - zfhua"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="http://yoursite.com/atom.xml" title="Hexo"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/aimboy" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zfhua" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">CentOS|Ubuntu Linux系统日常维护</h1><div class="post-info">Apr 14, 2018</div><div class="post-content"><h2 id="CentOS-系统日常维护"><a href="#CentOS-系统日常维护" class="headerlink" title="CentOS 系统日常维护"></a>CentOS 系统日常维护</h2><h3 id="服务器环境设置"><a href="#服务器环境设置" class="headerlink" title="服务器环境设置"></a>服务器环境设置</h3><ul>
+<li>安装 <code>openssh-server</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   // 安装 openssh-server</span><br><span class="line">apt-get install openssh-server</span><br><span class="line">// 查看是否安装成功</span><br><span class="line">ps -e |  grep ssh</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>如果只有<code>ssh-agent</code>那<code>ssh-server</code>还没有启动,<br>如果看到<code>sshd</code>那说明<code>ssh-server</code>已经启动了;<br>ssh-server配置文件位于<code>/etc/ssh/sshd_config</code>,<br>在这里可以定义SSH的服务端口，<code>默认端口是22</code>,<br>你可以自己定义成其他端口号,如222; 然后重启SSH服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 重启服务</span><br><span class="line">　　sudo /etc/init.d/ssh restart</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<ul>
+<li>设置软链接s / 硬链接\<br>  <code>ln -s 源路径绝对地址 目标路径绝对地址</code><blockquote>
+<p>示例 软链接：<br>  <code>ln -s /home/zhenwx/htccode-v1/    /home/zhenwx/htccode</code></p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h3 id="一：JAVA-维护"><a href="#一：JAVA-维护" class="headerlink" title="一：JAVA 维护"></a>一：JAVA 维护</h3><h4 id="安装-卸载："><a href="#安装-卸载：" class="headerlink" title="安装 / 卸载："></a>安装 / 卸载：</h4><ul>
+<li><code>yum 命令安装</code><blockquote>
+<p><code>yum list | grep jdk</code>\<br><code>yum install java-1.8.0-openjdk</code></p>
+</blockquote>
+</li>
+</ul>
+<p><code>默认安装路径:</code>\<br><code>/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.151-1.b12.el7_4.x86_64/jre/bin/java</code></p>
+<ul>
+<li><code>rpm 安装</code><blockquote>
+<p><code>curl -O http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.rpm</code></p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p><code>rpm -ivh jdk-7u79-linux-x64.rpm</code></p>
+</blockquote>
+<ul>
+<li><code>Ubuntu 系统可以使用 apt-get 操作</code><blockquote>
+<p><code>apt-get install openjdk-7-jdk</code></p>
+</blockquote>
+</li>
+</ul>
+<h4 id="环境配置："><a href="#环境配置：" class="headerlink" title="环境配置："></a>环境配置：</h4><ul>
+<li><p>编辑文件(所有用户有效)：<code>/etc/profile</code>, 添加以下代码;</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/share/jdk1.6.0_20</span><br><span class="line"><span class="built_in">export</span> JRE_HOME=<span class="variable">$&#123;JAVA_HOME&#125;</span>/jre</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span></span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>当前用户有效</p>
+</li>
+<li><p>本次登录有效</p>
+</li>
+<li><p>使配置生效</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 使配置生效</span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h3 id="二：MySql-维护"><a href="#二：MySql-维护" class="headerlink" title="二：MySql 维护"></a>二：MySql 维护</h3><blockquote>
+<p>Cent OS 系统, 安装后环境：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. `/etc/my.cnf` 		这是mysql的主配置文件;</span><br><span class="line">2. `/var/lib/mysql` mysql数据库的数据库文件存放位置;</span><br><span class="line">3. `/var/log mysql` 数据库的日志输出存放位置</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<ul>
+<li><p><code>安装 / 卸载</code><br>CentOS 系统 <code>yum</code> 命令安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">   rpm -qa | grep mysql	// 查看是否安装`</span><br><span class="line">   </span><br><span class="line">   rpm -e mysql　　// 普通删除模式;</span><br><span class="line">   rpm -e --nodeps mysql</span><br><span class="line">   // 强力删除模式,如果使用上面命令删除时,提示有依赖的其它文件,则用该命令可以对其进行强力删除;</span><br><span class="line">   </span><br><span class="line">   yum list | grep mysql		//查看安装源可下载版本</span><br><span class="line">   </span><br><span class="line">   yum install -y mysql-server mysql mysql-devel</span><br><span class="line">   // 将mysql mysql-server mysql-devel都安装好</span><br><span class="line">   </span><br><span class="line">   //检查 mysqld 进程是否已经开启，可以使用下面的命令： </span><br><span class="line">pgrep mysqld</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>启动 / 停止</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld start/stop/staus</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>登录数据库/<br><code>mysql -u root -p</code></p>
+</li>
+</ul>
+<ul>
+<li><code>忘记密码 (root)</code></li>
+</ul>
+<p>Cent OS 系统：</p>
+<pre><code>1. `/etc/my.cnf`         这是mysql的主配置文件;
+2. `/var/lib/mysql` mysql数据库的数据库文件存放位置;
+3. `/var/log mysql` 数据库的日志输出存放位置
+</code></pre><ul>
+<li><code>无密码登录</code></li>
+</ul>
+<p>修改 <code>my.ini</code> 或者 <code>my.cnf</code> 文件, 在<code>[mysqld]</code>字段下面加入 <code>skip-grant-tables</code> ;</p>
+<blockquote>
+<p><code>修改数据库用户密码</code><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--选择数据库</span></span><br><span class="line"><span class="keyword">use</span> mysql;</span><br><span class="line"><span class="comment">--查看数据表</span></span><br><span class="line"><span class="comment">--select User,Password from User;</span></span><br><span class="line"><span class="comment">--修改密码</span></span><br><span class="line"><span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> <span class="keyword">Password</span>=<span class="keyword">password</span>(<span class="string">'新密码'</span>) <span class="keyword">where</span> <span class="keyword">User</span>=<span class="string">'root'</span>;</span><br><span class="line"><span class="comment">--立即生效</span></span><br><span class="line"><span class="keyword">flush</span> <span class="keyword">privileges</span></span><br></pre></td></tr></table></figure></p>
+<p>设置远程访问:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 5.6版本及以下的： </span></span><br><span class="line">修改配置 /etc/mysql/my.cnf</span><br><span class="line"><span class="built_in">bind</span>-address = xxx.xxx.xxx.xxx(你本地的IP地址，不是127.0.0.1)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5.7版本及以上 </span></span><br><span class="line">修改配置 /etc/mysql/mysql.conf.d/mysqld.cnf</span><br><span class="line"><span class="built_in">bind</span>-address = xxx.xxx.xxx.xxx(你本地的IP地址，不是127.0.0.1)</span><br><span class="line">不想指定IP地址可以再添加：(<span class="built_in">bind</span>-address = 0.0.0.0);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    1. 取消本地监听：</span><br><span class="line">    需要修改 `/etc/mysql/my.cnf` 或者 `my.ini` </span><br><span class="line">    或者 `/etc/mysql/mysql.conf.d/mysqld.cnf` 文件;</span><br><span class="line">    `sudo vim /etc/mysql/my.cnf`</span><br><span class="line">    找到如下内容，并注释：</span><br><span class="line">    `<span class="built_in">bind</span>-address = 127.0.0.1`</span><br><span class="line">    // 重启数据库</span><br><span class="line">    service mysql restart</span><br><span class="line">    </span><br><span class="line">    2. 授权用户权限 (例如：`用户|密码：root|root`)</span><br><span class="line">    &gt; use mysql;</span><br><span class="line">    &gt;</span><br><span class="line">    &gt; <span class="comment"># 新建用户授权</span></span><br><span class="line">    &gt; create user user@<span class="string">'%'</span> identified by <span class="string">'123123'</span>;</span><br><span class="line">    &gt; grant all on . to user@’%’; <span class="comment"># `*.*` 表示所有库所有表;</span></span><br><span class="line">    &gt; flush privileges;</span><br><span class="line">    &gt;</span><br><span class="line">    &gt; <span class="comment"># 授权root用户</span></span><br><span class="line">    &gt; GRANT ALL PRIVILEGES ON *.* TO <span class="string">'root'</span>@<span class="string">"%"</span> IDENTIFIED BY <span class="string">'123123'</span> WITH GRANT OPTION;//赋予任何主机访问数据的权限</span><br><span class="line">    &gt; FLUSH PRIVILEGES;//修改生效</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<hr>
+<h3 id="三：tomcat-配置"><a href="#三：tomcat-配置" class="headerlink" title="三：tomcat 配置"></a>三：tomcat 配置</h3><ul>
+<li>安装服务器 Tomcat<blockquote>
+<p><code>sudo tar -zxvf apache-tomcat-8.5.9.tar.gz</code></p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>安装路径：(自定义)\<br><code>/usr/tomcat8.x/tomcat...</code></p>
+</blockquote>
+<ul>
+<li><p>编辑文件: <code>startup.sh</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># set java environment</span></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/java/jdk1.8.0_111</span><br><span class="line"><span class="built_in">export</span> JRE_HOME=<span class="variable">$&#123;JAVA_HOME&#125;</span>/jre</span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:%&#123;JAVA_HOME&#125;/lib:%&#123;JRE_HOME&#125;/lib</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;JAVA_HOME&#125;</span>/bin:<span class="variable">$PATH</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># tomcat</span></span><br><span class="line"><span class="built_in">export</span> TOMCAT_HOME=/usr/tomcat/apache-tomcat-8.5.9</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编辑文件: <code>shutdown.sh</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># set java environment</span></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/java/jdk1.8.0_111</span><br><span class="line"><span class="built_in">export</span> JRE_HOME=<span class="variable">$&#123;JAVA_HOME&#125;</span>/jre</span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:%&#123;JAVA_HOME&#125;/lib:%&#123;JRE_HOME&#125;/lib</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;JAVA_HOME&#125;</span>/bin:<span class="variable">$PATH</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># tomcat</span></span><br><span class="line"><span class="built_in">export</span> TOMCAT_HOME=/usr/tomcat/apache-tomcat-8.5.9</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>tomcat开机自启动</p>
+</li>
+</ul>
+<blockquote>
+<p>编辑文件 <code>/etc/rc.local</code><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># set java environment</span></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/java/jdk1.8.0_111</span><br><span class="line"><span class="built_in">export</span> JRE_HOME=<span class="variable">$&#123;JAVA_HOME&#125;</span>/jre</span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:%&#123;JAVA_HOME&#125;/lib:%&#123;JRE_HOME&#125;/lib</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;JAVA_HOME&#125;</span>/bin:<span class="variable">$PATH</span></span><br><span class="line"></span><br><span class="line">/usr/tomcat/apache-tomcat-8.5.9/bin/startup.sh</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+</div></article></div></main><footer><div class="paginator"><a href="/2018/04/15/linux-SVN 代码仓库搭建/" class="prev">PREV</a><a href="/2018/02/01/Java之String&amp;SBs/" class="next">NEXT</a></div><div class="copyright"><p>© 2015 - 2018 <a href="http://yoursite.com">zfhua</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-65933410-1",'auto');ga('send','pageview');</script></body></html>
